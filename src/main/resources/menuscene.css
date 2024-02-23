@@ -1,0 +1,14 @@
+.root{
+    -fx-background-color: #d0ff00;
+}
+
+.label{
+    -fx-font: normal bold 80 Calibri;
+}
+
+.button{
+    -fx-pref-height: 100;
+    -fx-pref-width: 200;
+    -fx-background-radius: 20;
+    -fx-font: normal bold 20 Calibri;
+}
