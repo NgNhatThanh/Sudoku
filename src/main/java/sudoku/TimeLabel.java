@@ -12,6 +12,7 @@ public class TimeLabel extends Label {
         tick.setCycleCount(Animation.INDEFINITE);
         setTimeDisplay();
     }
+
     Timeline tick = new Timeline(new KeyFrame(Duration.seconds(1), (event) ->{
         ++sec;
         if(sec == 60){
@@ -20,13 +21,17 @@ public class TimeLabel extends Label {
         }
         setTimeDisplay();
     }));
+
     private void setTimeDisplay(){
         setText(String.format("%02d:%02d", mins, sec));
     }
+
     public void startTime(){
         tick.play();
     }
+
     public void pauseTime(){
         tick.pause();
     }
+    public void reset(){mins = 0; sec = 0;}
 }

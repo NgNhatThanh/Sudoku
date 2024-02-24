@@ -7,13 +7,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+import java.util.Objects;
+
 public class PickLevelScene extends VBox{
     Button easyLevel = new Button("EASY");
     Button hardLevel = new Button("HARD");
     Button masterLevel = new Button("MASTER");
     Label nameLabel = new Label("Choose level");
     public PickLevelScene(){
-        getStylesheets().add(getClass().getResource("/menuscene.css").toExternalForm());
+        getStylesheets().add(Objects.requireNonNull(getClass().getResource("/menuscene.css")).toExternalForm());
         setAlignment(Pos.CENTER);
         setSpacing(40);
         getChildren().add(nameLabel);
@@ -23,17 +25,13 @@ public class PickLevelScene extends VBox{
         easyLevel.setOnAction(buttonHanlder);
         hardLevel.setOnAction(buttonHanlder);
         masterLevel.setOnAction(buttonHanlder);
-//        easyLevel.setOnAction(actionEvent -> {
-//
-//        });
     }
 
     EventHandler<ActionEvent> buttonHanlder = event -> {
-        if(event.getSource() == easyLevel) HelloApplication.grid.setLevel(GameGrid.easyLevel);
-        else if(event.getSource() == hardLevel) HelloApplication.grid.setLevel(GameGrid.hardLevel);
-        else HelloApplication.grid.setLevel(GameGrid.masterLevel);
-        HelloApplication.grid = new GameGrid();
-        HelloApplication.scene.setRoot(HelloApplication.grid);
-        HelloApplication.grid.timeLabel.startTime();
+        if(event.getSource() == easyLevel) InitApp.inGameScene.setLevel(GameGrid.easyLevel);
+        else if(event.getSource() == hardLevel) InitApp.inGameScene.setLevel(GameGrid.hardLevel);
+        else InitApp.inGameScene.setLevel(GameGrid.masterLevel);
+        InitApp.inGameScene.startNew();
+        InitApp.scene.setRoot(InitApp.inGameScene);
     };
 }
