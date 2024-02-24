@@ -13,16 +13,3 @@
     -fx-pref-width: 150;
     -fx-alignment: center;
 }
-
-.normalCell{
-    -fx-border-color: black; -fx-border-width: 0.2px;
-}
-
-.incorrectCell{
-    -fx-background-color: #e2ebf3; -fx-border-color: black; -fx-border-width: 0.2px;
-    -fx-text-fill: red;
-}
-
-.choosenCell{
-    -fx-background-color: #e2ebf3; -fx-border-color: black; -fx-border-width: 0.2px;
-}

@@ -107,12 +107,6 @@ public class GameGrid extends AnchorPane {
                 }
             }
         }
-        this.requestFocus();
-        for(int i = 0; i < 9; ++i){
-            for(int j = 0; j < 9; ++j) System.out.print(sol[j][i] + " ");
-            System.out.println();
-        }
-        System.out.println();
         Line d1 = new Line(150, 0, 150, 450);
         Line d2 = new Line(300, 0, 300, 450);
         Line n1 = new Line(0, 150, 450, 150);
