@@ -48,10 +48,9 @@ public class GameGrid extends AnchorPane {
                 displayGrid[i][j].setStyle(GridCell.normalCellStyle);
                 int finalI = i;
                 int finalJ = j;
-                displayGrid[i][j].setCursor(null);
                 displayGrid[finalI][finalJ].setOnKeyPressed(keyEvent -> {
                     if(isPlaying && displayGrid[finalI][finalJ].isCanEdit()){
-                        if(keyEvent.getCode().isDigitKey()){
+                        if(keyEvent.getCode().isDigitKey() && keyEvent.getCode() != KeyCode.DIGIT0 && keyEvent.getCode() != KeyCode.NUMPAD0){
                             displayGrid[finalI][finalJ].setText(keyEvent.getText());
                             grid[finalI][finalJ] = Integer.parseInt(keyEvent.getText());
                             displayGrid[finalI][finalJ].setCorrect(true);
