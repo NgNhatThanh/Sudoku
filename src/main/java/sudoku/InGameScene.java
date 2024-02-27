@@ -39,7 +39,6 @@ public class InGameScene extends AnchorPane {
         backButton.setOnAction(actionEvent ->  backToMenu());
         String css = Objects.requireNonNull(getClass().getResource("/ingamescene.css")).toExternalForm();
         getStylesheets().add(css);
-
         pauseButton.setPrefHeight(50);
         getChildren().add(gameGrid);
     }

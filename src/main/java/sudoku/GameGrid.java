@@ -48,7 +48,38 @@ public class GameGrid extends AnchorPane {
                 displayGrid[i][j].setStyle(GridCell.normalCellStyle);
                 int finalI = i;
                 int finalJ = j;
+                displayGrid[i][j].setCursor(null);
+                displayGrid[finalI][finalJ].setOnKeyPressed(keyEvent -> {
+                    if(isPlaying && displayGrid[finalI][finalJ].isCanEdit()){
+                        if(keyEvent.getCode().isDigitKey()){
+                            displayGrid[finalI][finalJ].setText(keyEvent.getText());
+                            grid[finalI][finalJ] = Integer.parseInt(keyEvent.getText());
+                            displayGrid[finalI][finalJ].setCorrect(true);
+                            if(grid[finalI][finalJ] != sol[finalI][finalJ]){
+                                displayGrid[finalI][finalJ].setStyle(GridCell.incorrectCellStyle);
+                                displayGrid[finalI][finalJ].setCorrect(false);
+                            }
+                            else{
+                                displayGrid[finalI][finalJ].setStyle(GridCell.choosenCellStyle);
+                                if(isWon()){
+                                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                    InitApp.inGameScene.timeLabel.pauseTime();
+                                    alert.setContentText("You won!");
+                                    alert.showAndWait();
+                                    backToMenu();
+                                }
+                            }
+                        }
+                        else  if(keyEvent.getCode() == KeyCode.BACK_SPACE){
+                            displayGrid[finalI][finalJ].setCorrect(true);
+                            displayGrid[finalI][finalJ].setText("");
+                            grid[finalI][finalJ] = 0;
+                        }
+                    }
+                });
+
                 displayGrid[i][j].setOnMouseClicked(mouseEvent -> {
+                    displayGrid[finalI][finalJ].requestFocus();
                     int stx = (finalI / 3) * 3;
                     int sty = (finalJ / 3) * 3;
                     for(int m = 0; m < 9; ++m){
@@ -60,37 +91,6 @@ public class GameGrid extends AnchorPane {
                             }
                         }
                     }
-                    if(isPlaying && displayGrid[finalI][finalJ].isEditable()){
-                        displayGrid[finalI][finalJ].requestFocus();
-                        displayGrid[finalI][finalJ].setOnKeyPressed(keyEvent -> {
-                            if(keyEvent.getCode().isDigitKey()){
-                                displayGrid[finalI][finalJ].setText(keyEvent.getText());
-                                grid[finalI][finalJ] = Integer.parseInt(keyEvent.getText());
-                                displayGrid[finalI][finalJ].setCorrect(true);
-                                if(grid[finalI][finalJ] != sol[finalI][finalJ]){
-                                    displayGrid[finalI][finalJ].setStyle("-fx-background-color: #e2ebf3; -fx-border-color: black; -fx-border-width: 0.2; -fx-text-fill: red;");
-                                    displayGrid[finalI][finalJ].setCorrect(false);
-                                }
-                                else{
-                                    displayGrid[finalI][finalJ].setStyle("-fx-background-color: #e2ebf3; -fx-border-color: black; -fx-border-width: 0.2");
-                                    if(isWon()){
-                                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                        InitApp.inGameScene.timeLabel.pauseTime();
-                                        alert.setContentText("You won!");
-                                        alert.showAndWait();
-                                        backToMenu();
-                                    }
-                                }
-                            }
-                            else if(keyEvent.getCode() == KeyCode.BACK_SPACE){
-                                displayGrid[finalI][finalJ].setText("");
-                                grid[finalI][finalJ] = 0;
-                            }
-                            else displayGrid[finalI][finalJ].undo();
-                            this.requestFocus();
-                        });
-                    }
-                    else this.requestFocus();
                 });
                 this.getChildren().add(displayGrid[i][j]);
             }
@@ -103,7 +103,7 @@ public class GameGrid extends AnchorPane {
             for(int j = 0; j < 9; ++j){
                 if(grid[i][j] > 0){
                     displayGrid[i][j].setText(Integer.toString(grid[i][j]));
-                    displayGrid[i][j].setEditable(false);
+                    displayGrid[i][j].setCanEdit(false);
                 }
             }
         }
@@ -192,7 +192,9 @@ public class GameGrid extends AnchorPane {
     public void hideGrid(){
         for(int i = 0; i < 9; ++i){
             for(int j = 0; j < 9; ++j){
+                displayGrid[i][j].setCanEdit(false);
                 displayGrid[i][j].setText("");
+                displayGrid[i][j].setStyle(GridCell.normalCellStyle);
             }
         }
         isPlaying = false;
@@ -202,6 +204,7 @@ public class GameGrid extends AnchorPane {
         isPlaying = true;
         for(int i = 0; i < 9; ++i){
             for(int j = 0; j < 9; ++j){
+                displayGrid[i][j].setCanEdit(true);
                 if(grid[i][j] > 0) displayGrid[i][j].setText(Integer.toString(grid[i][j]));
             }
         }
